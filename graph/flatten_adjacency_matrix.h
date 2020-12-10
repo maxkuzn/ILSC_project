@@ -1,7 +1,7 @@
 #pragma once
 
 #include "graph.h"
-
+#include <stdexcept>
 
 class FlattenAdjacencyMatrix : public Graph<FlattenAdjacencyMatrix> {
  public:
