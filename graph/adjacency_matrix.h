@@ -5,7 +5,10 @@
 
 class AdjacencyMatrix : public Graph<AdjacencyMatrix> {
  public:
-  AdjacencyMatrix(size_t size);
+  AdjacencyMatrix(size_t size)
+    : mat_(size, std::vector<bool>(size, false))
+  {
+  }
 
   virtual ~AdjacencyMatrix() = default;
 
@@ -33,10 +36,4 @@ class AdjacencyMatrix : public Graph<AdjacencyMatrix> {
  private:
   std::vector<std::vector<bool>> mat_;
 };
-
-// Some errors occurs in MacOS if we define constructor inline in the class
-inline AdjacencyMatrix::AdjacencyMatrix(size_t size)
-  : mat_(size, std::vector<bool>(size, false))
-{
-}
 
