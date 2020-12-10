@@ -3,11 +3,12 @@
 #include "graph.h"
 #include <stdexcept>
 
+template<typename NodeT, NodeT _NotNullNode = NodeT{1}, NodeT _NullNode = NodeT{0}>
 class FlattenAdjacencyMatrix : public Graph {
  public:
   FlattenAdjacencyMatrix(size_t size)
     : size_(size)
-    , mat_(size * size, false)
+    , mat_(size * size, _NullNode)
   {
   }
 
@@ -23,15 +24,15 @@ class FlattenAdjacencyMatrix : public Graph {
   }
 
   void add_edge(size_t from, size_t to) override {
-    mat_[from * size_ + to] = true;
+    mat_[from * size_ + to] = _NotNullNode;
   }
 
   void remove_edge(size_t from, size_t to) override {
-    mat_[from * size_ + to] = false;
+    mat_[from * size_ + to] = _NullNode;
   }
 
  private:
   const size_t size_;
-  std::vector<bool> mat_;
+  std::vector<NodeT> mat_;
 };
 

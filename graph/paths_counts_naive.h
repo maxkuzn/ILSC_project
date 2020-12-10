@@ -2,6 +2,7 @@
 
 #include "adjacency_matrix.h"
 
-AdjacencyMatrix find_all_paths_counts(const AdjacencyMatrix& graph, size_t /*max_len*/) {
-    return AdjacencyMatrix(graph.size());
+template<typename NodeT>
+AdjacencyMatrix<std::uint32_t> find_all_paths_counts(const AdjacencyMatrix<NodeT>& graph, size_t /*max_len*/) {
+    return AdjacencyMatrix<std::uint32_t>(graph.size());
 }

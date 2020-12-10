@@ -9,8 +9,8 @@ class GraphTest : public testing::Test {
 };
 
 using GraphImplementations = ::testing::Types<
-  AdjacencyMatrix,
-  FlattenAdjacencyMatrix
+  AdjacencyMatrix<bool>,
+  FlattenAdjacencyMatrix<bool>
 >;
 TYPED_TEST_SUITE(GraphTest, GraphImplementations,);
 
