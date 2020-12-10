@@ -3,7 +3,7 @@
 #include "graph.h"
 #include <stdexcept>
 
-class FlattenAdjacencyMatrix : public Graph<FlattenAdjacencyMatrix> {
+class FlattenAdjacencyMatrix : public Graph {
  public:
   FlattenAdjacencyMatrix(size_t size)
     : size_(size)
@@ -28,10 +28,6 @@ class FlattenAdjacencyMatrix : public Graph<FlattenAdjacencyMatrix> {
 
   void remove_edge(size_t from, size_t to) override {
     mat_[from * size_ + to] = false;
-  }
-
-  FlattenAdjacencyMatrix find_paths_with_length(size_t /*max_len*/) const override {
-    throw std::runtime_error("Not implemented");
   }
 
  private:

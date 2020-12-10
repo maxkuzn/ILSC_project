@@ -2,8 +2,6 @@
 
 #include <vector>
 
-
-template <class Derived>
 class Graph {
  public:
   virtual ~Graph() = default;
@@ -18,7 +16,5 @@ class Graph {
 
   virtual void add_edge(size_t from, size_t to) = 0;
   virtual void remove_edge(size_t from, size_t to) = 0;
-
-  virtual Derived find_paths_with_length(size_t max_len) const = 0;
 };
 
