@@ -3,8 +3,8 @@
 #include "adjacency_matrix.h"
 
 template<typename GraphT>
-AdjacencyMatrix<std::uint32_t> count_paths_of_len(const GraphT& graph, size_t /*path_len*/) {
-  auto result = AdjacencyMatrix<std::uint32_t>(graph.size());
+GraphT count_paths_of_len(const GraphT& graph, size_t /*path_len*/) {
+  auto result = GraphT(graph.size());
   
   // Just to pass the test
   result.add_edge(0, 0, 2);
