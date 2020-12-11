@@ -3,12 +3,12 @@
 #include "graph.h"
 #include <stdexcept>
 
-template<typename EdgeT, EdgeT _NotNullNode = EdgeT{1}, EdgeT _NullNode = EdgeT{0}>
-class FlattenAdjacencyMatrix : public Graph {
+template<typename EdgeT, EdgeT NullEdge_ = EdgeT{0}>
+class FlattenAdjacencyMatrix : public Graph<EdgeT> {
  public:
   FlattenAdjacencyMatrix(size_t size)
     : size_(size)
-    , mat_(size * size, _NullNode)
+    , mat_(size * size, NullEdge_)
   {
   }
 
@@ -20,15 +20,19 @@ class FlattenAdjacencyMatrix : public Graph {
   }
 
   bool has_edge(size_t from, size_t to) const override {
+    return mat_[from * size_ + to] != NullEdge_;
+  }
+
+  EdgeT operator()(size_t from, size_t to) const override {
     return mat_[from * size_ + to];
   }
 
-  void add_edge(size_t from, size_t to) override {
-    mat_[from * size_ + to] = _NotNullNode;
+  void add_edge(size_t from, size_t to, EdgeT weight = EdgeT{1}) override {
+    mat_[from * size_ + to] = weight;
   }
 
   void remove_edge(size_t from, size_t to) override {
-    mat_[from * size_ + to] = _NullNode;
+    mat_[from * size_ + to] = NullEdge_;
   }
 
  private:
