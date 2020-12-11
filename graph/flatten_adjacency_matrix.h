@@ -13,6 +13,21 @@ class FlattenAdjacencyMatrix : public Graph<EdgeT> {
   {
   }
 
+  template<template<typename> typename GraphT, typename OtherEdgeT>
+  FlattenAdjacencyMatrix(const GraphT<OtherEdgeT>& other)
+    : size_(other.size())
+    , mat_(other.size() * other.size(), null_edge_value)
+  {
+    static_assert(std::is_base_of<Graph<OtherEdgeT>, GraphT<OtherEdgeT>>::value);
+    for (size_t from = 0; from < other.size(); ++from) {
+      for (size_t to = 0; to < other.size(); ++to) {
+        if (other.has_edge(from, to)) {
+          mat_[from * size_ + to] = other(from, to);
+        }
+      }
+    }
+  } 
+
   ~FlattenAdjacencyMatrix() = default;
 
 

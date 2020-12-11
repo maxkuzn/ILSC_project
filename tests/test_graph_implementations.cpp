@@ -81,3 +81,24 @@ TYPED_TEST(GraphTest, OperatorEquals) {
     ASSERT_FALSE(lhs5 == rhs5);
   }
 }
+
+TYPED_TEST(GraphTest, FromGraphConstructor) {
+  using GraphImplementation = TypeParam;
+
+  size_t n_nodes = 5;
+  GraphImplementation graph(n_nodes);
+
+  graph.add_edge(0, 0, 100);
+  graph.add_edge(1, 4, 101);
+  graph.add_edge(4, 5, 102);
+
+  GraphImplementation copy_graph(graph);
+  ASSERT_TRUE(graph == copy_graph);
+
+  AdjacencyMatrix<std::uint16_t> other_type_graph(graph);
+  ASSERT_TRUE(graph == other_type_graph);
+
+  graph.remove_edge(0, 0);
+  ASSERT_FALSE(graph == copy_graph);
+  ASSERT_FALSE(graph == other_type_graph);
+}
