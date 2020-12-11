@@ -1,7 +1,6 @@
 #pragma once
 
 #include "graph.h"
-#include <stdexcept>
 
 template<typename EdgeT, EdgeT NullEdge_ = EdgeT{0}>
 class FlattenAdjacencyMatrix : public Graph<EdgeT> {
