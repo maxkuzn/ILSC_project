@@ -3,11 +3,11 @@
 #include "graph.h"
 #include <stdexcept>
 
-template<typename NodeT, NodeT _NotNullNode = NodeT{1}, NodeT _NullNode = NodeT{0}>
+template<typename EdgeT, EdgeT _NotNullNode = EdgeT{1}, EdgeT _NullNode = EdgeT{0}>
 class AdjacencyMatrix : public Graph {
  public:
   AdjacencyMatrix(size_t size)
-    : mat_(size, std::vector<NodeT>(size, _NullNode))
+    : mat_(size, std::vector<EdgeT>(size, _NullNode))
   {
   }
 
@@ -31,6 +31,5 @@ class AdjacencyMatrix : public Graph {
   }
 
  private:
-  std::vector<std::vector<NodeT>> mat_;
+  std::vector<std::vector<EdgeT>> mat_;
 };
-

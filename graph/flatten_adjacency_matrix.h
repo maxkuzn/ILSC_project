@@ -3,7 +3,7 @@
 #include "graph.h"
 #include <stdexcept>
 
-template<typename NodeT, NodeT _NotNullNode = NodeT{1}, NodeT _NullNode = NodeT{0}>
+template<typename EdgeT, EdgeT _NotNullNode = EdgeT{1}, EdgeT _NullNode = EdgeT{0}>
 class FlattenAdjacencyMatrix : public Graph {
  public:
   FlattenAdjacencyMatrix(size_t size)
@@ -33,6 +33,6 @@ class FlattenAdjacencyMatrix : public Graph {
 
  private:
   const size_t size_;
-  std::vector<NodeT> mat_;
+  std::vector<EdgeT> mat_;
 };
 
