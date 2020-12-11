@@ -2,12 +2,14 @@
 
 #include "graph.h"
 
-template<typename EdgeT, EdgeT NullEdge_ = EdgeT{0}>
+template<typename EdgeT>
 class FlattenAdjacencyMatrix : public Graph<EdgeT> {
  public:
+  constexpr static EdgeT null_edge_value = EdgeT{0};
+
   FlattenAdjacencyMatrix(size_t size)
     : size_(size)
-    , mat_(size * size, NullEdge_)
+    , mat_(size * size, null_edge_value)
   {
   }
 
@@ -19,7 +21,7 @@ class FlattenAdjacencyMatrix : public Graph<EdgeT> {
   }
 
   bool has_edge(size_t from, size_t to) const override {
-    return mat_[from * size_ + to] != NullEdge_;
+    return mat_[from * size_ + to] != null_edge_value;
   }
 
   EdgeT operator()(size_t from, size_t to) const override {
@@ -31,7 +33,7 @@ class FlattenAdjacencyMatrix : public Graph<EdgeT> {
   }
 
   void remove_edge(size_t from, size_t to) override {
-    mat_[from * size_ + to] = NullEdge_;
+    mat_[from * size_ + to] = null_edge_value;
   }
 
  private:

@@ -3,11 +3,13 @@
 #include "graph.h"
 #include <stdexcept>
 
-template<typename EdgeT, EdgeT NullEdge_ = EdgeT{0}>
+template<typename EdgeT>
 class AdjacencyMatrix : public Graph<EdgeT> {
  public:
+  constexpr static EdgeT null_edge_value = EdgeT{0};
+
   AdjacencyMatrix(size_t size)
-    : mat_(size, std::vector<EdgeT>(size, NullEdge_))
+    : mat_(size, std::vector<EdgeT>(size, null_edge_value))
   {
   }
 
@@ -19,7 +21,7 @@ class AdjacencyMatrix : public Graph<EdgeT> {
   }
 
   bool has_edge(size_t from, size_t to) const override {
-    return mat_[from][to] != NullEdge_;
+    return mat_[from][to] != null_edge_value;
   }
 
   EdgeT operator()(size_t from, size_t to) const override {
@@ -31,7 +33,7 @@ class AdjacencyMatrix : public Graph<EdgeT> {
   }
 
   void remove_edge(size_t from, size_t to) override {
-    mat_[from][to] = NullEdge_;
+    mat_[from][to] = null_edge_value;
   }
 
  private:

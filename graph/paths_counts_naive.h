@@ -1,10 +1,10 @@
 #pragma once
 
-#include "adjacency_matrix.h"
-
-template<typename GraphT>
-GraphT count_paths_of_len(const GraphT& graph, size_t /*path_len*/) {
-  auto result = GraphT(graph.size());
+// NOTE(laralex): The output graph has the same base type (like AdjacencyMatrix),
+// but a different Edge type (since we count number of paths, it's an integer)
+template<template<typename> typename GraphT, typename EdgeT>
+GraphT<std::uint32_t> count_paths_of_len(const GraphT<EdgeT>& graph, size_t /*path_len*/) {
+  auto result = GraphT<std::uint32_t>(graph.size());
   
   // Just to pass the test
   result.add_edge(0, 0, 2);
