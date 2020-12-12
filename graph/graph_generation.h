@@ -1,7 +1,6 @@
 #pragma once
 
 #include "graph.h"
-#include "graph_generation_impl.h"
 
 // Creates a random graph with probability of each edge is equal to prob
 void fill_random(Graph& graph, double prob);
