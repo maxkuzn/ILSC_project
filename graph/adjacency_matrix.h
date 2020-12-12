@@ -3,21 +3,16 @@
 #include "graph.h"
 #include <type_traits>
 
-template<typename EdgeT>
-class AdjacencyMatrix : public Graph<EdgeT> {
+class AdjacencyMatrix : public Graph {
  public:
-  constexpr static EdgeT null_edge_value = EdgeT{0};
-
   AdjacencyMatrix(size_t size)
     : mat_(size, std::vector<EdgeT>(size, null_edge_value))
   {
   }
 
-  template<template<typename> typename GraphT, typename OtherEdgeT>
-  AdjacencyMatrix(const GraphT<OtherEdgeT>& other)
+  AdjacencyMatrix(const Graph& other)
     : mat_(other.size(), std::vector<EdgeT>(other.size(), null_edge_value))
   {
-    static_assert(std::is_base_of<Graph<OtherEdgeT>, GraphT<OtherEdgeT>>::value);
     for (size_t from = 0; from < other.size(); ++from) {
       for (size_t to = 0; to < other.size(); ++to) {
         if (other.has_edge(from, to)) {
@@ -25,7 +20,7 @@ class AdjacencyMatrix : public Graph<EdgeT> {
         }
       }
     }
-  } 
+  }
 
   virtual ~AdjacencyMatrix() = default;
 

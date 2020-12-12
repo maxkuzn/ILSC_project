@@ -11,8 +11,8 @@ class PathCountsTest : public testing::Test {
 };
 
 using GraphImplementations = ::testing::Types<
-  AdjacencyMatrix<std::uint8_t>,
-  FlattenAdjacencyMatrix<bool>
+  AdjacencyMatrix,
+  FlattenAdjacencyMatrix
 >;
 
 TYPED_TEST_SUITE(PathCountsTest, GraphImplementations,);
@@ -22,8 +22,8 @@ using Matrix2d = std::vector<std::vector<std::uint32_t>>;
 TYPED_TEST(PathCountsTest, Naive) {
   using GraphImplementation = TypeParam;
   /* INPUT
-   *  1 0 1 0            
-   *  1 0 1 1     
+   *  1 0 1 0
+   *  1 0 1 1
    *  0 1 0 1
    *  0 0 0 0
    */
@@ -41,8 +41,8 @@ TYPED_TEST(PathCountsTest, Naive) {
 
   {
     /* Number of paths of exactly 3 jumps:
-    *  2 1 2 2            
-    *  2 1 2 2     
+    *  2 1 2 2
+    *  2 1 2 2
     *  1 1 1 1
     *  0 0 0 0
     */
@@ -66,11 +66,11 @@ TYPED_TEST(PathCountsTest, Naive) {
 
     ASSERT_TRUE(  paths_counts == expected_paths_counts );
   }
-  
+
     {
     /* Number of paths of exactly 3 jumps:
-    *  2 1 2 2            
-    *  2 1 2 2     
+    *  2 1 2 2
+    *  2 1 2 2
     *  1 1 1 1
     *  0 0 0 0
     */
@@ -96,3 +96,4 @@ TYPED_TEST(PathCountsTest, Naive) {
   }
 
 }
+
