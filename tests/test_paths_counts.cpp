@@ -2,6 +2,8 @@
 
 #include <graph/adjacency_matrix.h>
 #include <graph/flatten_adjacency_matrix.h>
+#include <graph/adjacency_matrix_openmp.h>
+#include <graph/flatten_adjacency_matrix_openmp.h>
 #include <graph/paths_counts.h>
 
 #include <vector>
@@ -12,7 +14,9 @@ class PathCountsTest : public testing::Test {
 
 using GraphImplementations = ::testing::Types<
   AdjacencyMatrix,
-  FlattenAdjacencyMatrix
+  FlattenAdjacencyMatrix,
+  AdjacencyMatrixOpenMP,
+  FlattenAdjacencyMatrixOpenMP
 >;
 
 TYPED_TEST_SUITE(PathCountsTest, GraphImplementations,);
