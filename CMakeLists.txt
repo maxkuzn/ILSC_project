@@ -15,7 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 
 add_subdirectory(graph)
 add_subdirectory(tests)
-# add_subdirectory(benchmarks)
+add_subdirectory(benchmarks)
 
 # target_link_libraries(graph)
 
