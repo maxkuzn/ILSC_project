@@ -1,8 +1,12 @@
 #include <benchmark/benchmark.h>
 
 #include <graph/graph.h>
+
 #include <graph/adjacency_matrix.h>
 #include <graph/flatten_adjacency_matrix.h>
+#include <graph/adjacency_matrix_openmp.h>
+#include <graph/flatten_adjacency_matrix_openmp.h>
+
 #include <graph/paths_counts.h>
 #include <graph/graph_generation.h>
 
@@ -29,6 +33,12 @@ BENCHMARK_TEMPLATE(BM_FindPaths, AdjacencyMatrix)
   ->Apply(Arguments)
   ->Unit(benchmark::kMillisecond);
 BENCHMARK_TEMPLATE(BM_FindPaths, FlattenAdjacencyMatrix)
+  ->Apply(Arguments)
+  ->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_FindPaths, AdjacencyMatrixOpenMP)
+  ->Apply(Arguments)
+  ->Unit(benchmark::kMillisecond);
+BENCHMARK_TEMPLATE(BM_FindPaths, FlattenAdjacencyMatrixOpenMP)
   ->Apply(Arguments)
   ->Unit(benchmark::kMillisecond);
 
