@@ -4,8 +4,7 @@
 
 #include <random>
 
-template<typename EdgeT>
-void fill_random(Graph<EdgeT>& graph, double prob) {
+void fill_random(Graph& graph, double prob) {
   static std::mt19937 gen(2038);
   std::uniform_real_distribution<double> dist(0.0, 1.0);
   for (size_t i = 0; i != graph.size(); ++i) {
@@ -17,8 +16,7 @@ void fill_random(Graph<EdgeT>& graph, double prob) {
   }
 }
 
-template<typename EdgeT>
-void fill_complete(Graph<EdgeT>& graph) {
+void fill_complete(Graph& graph) {
   for (size_t i = 0; i != graph.size(); ++i) {
     for (size_t j = 0; j != graph.size(); ++j) {
       graph.add_edge(i, j);
@@ -26,16 +24,14 @@ void fill_complete(Graph<EdgeT>& graph) {
   }
 }
 
-template<typename EdgeT>
-void fill_cycle(Graph<EdgeT>& graph) {
+void fill_cycle(Graph& graph) {
   graph.add_edge(graph.size() - 1, 0);
   for (size_t i = 0; i + 1 < graph.size(); ++i) {
     graph.add_edge(i, i + 1);
   }
 }
 
-template<typename EdgeT>
-void fill_bidirectional_cycle(Graph<EdgeT>& graph) {
+void fill_bidirectional_cycle(Graph& graph) {
   graph.add_edge(graph.size() - 1, 0);
   graph.add_edge(0, graph.size() - 1);
   for (size_t i = 0; i + 1 < graph.size(); ++i) {
@@ -44,8 +40,7 @@ void fill_bidirectional_cycle(Graph<EdgeT>& graph) {
   }
 }
 
-template<typename EdgeT>
-void fill_binary_tree(Graph<EdgeT>& graph) {
+void fill_binary_tree(Graph& graph) {
   for (size_t i = 0; i != graph.size(); ++i) {
     size_t left = 2 * i + 1;
     if (left >= graph.size()) {
