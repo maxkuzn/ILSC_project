@@ -1,15 +1,32 @@
 #pragma once
 
 #include "graph.h"
-#include <stdexcept>
 
-class FlattenAdjacencyMatrix : public Graph<FlattenAdjacencyMatrix> {
+template<typename EdgeT>
+class FlattenAdjacencyMatrix : public Graph<EdgeT> {
  public:
+  constexpr static EdgeT null_edge_value = EdgeT{0};
+
   FlattenAdjacencyMatrix(size_t size)
     : size_(size)
-    , mat_(size * size, false)
+    , mat_(size * size, null_edge_value)
   {
   }
+
+  template<template<typename> typename GraphT, typename OtherEdgeT>
+  FlattenAdjacencyMatrix(const GraphT<OtherEdgeT>& other)
+    : size_(other.size())
+    , mat_(other.size() * other.size(), null_edge_value)
+  {
+    static_assert(std::is_base_of<Graph<OtherEdgeT>, GraphT<OtherEdgeT>>::value);
+    for (size_t from = 0; from < other.size(); ++from) {
+      for (size_t to = 0; to < other.size(); ++to) {
+        if (other.has_edge(from, to)) {
+          mat_[from * size_ + to] = other(from, to);
+        }
+      }
+    }
+  } 
 
   ~FlattenAdjacencyMatrix() = default;
 
@@ -19,23 +36,23 @@ class FlattenAdjacencyMatrix : public Graph<FlattenAdjacencyMatrix> {
   }
 
   bool has_edge(size_t from, size_t to) const override {
+    return mat_[from * size_ + to] != null_edge_value;
+  }
+
+  EdgeT operator()(size_t from, size_t to) const override {
     return mat_[from * size_ + to];
   }
 
-  void add_edge(size_t from, size_t to) override {
-    mat_[from * size_ + to] = true;
+  void add_edge(size_t from, size_t to, EdgeT weight = EdgeT{1}) override {
+    mat_[from * size_ + to] = weight;
   }
 
   void remove_edge(size_t from, size_t to) override {
-    mat_[from * size_ + to] = false;
-  }
-
-  FlattenAdjacencyMatrix find_paths_with_length(size_t /*max_len*/) const override {
-    throw std::runtime_error("Not implemented");
+    mat_[from * size_ + to] = null_edge_value;
   }
 
  private:
   const size_t size_;
-  std::vector<bool> mat_;
+  std::vector<EdgeT> mat_;
 };
 

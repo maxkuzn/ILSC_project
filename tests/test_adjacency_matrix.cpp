@@ -3,6 +3,6 @@
 #include <graph/adjacency_matrix.h>
 
 TEST(AdjacencyMatrix, Constructor) {
-  AdjacencyMatrix graph(5);
+  AdjacencyMatrix<bool> graph(5);
 }
 

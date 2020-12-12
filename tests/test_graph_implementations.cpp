@@ -9,8 +9,9 @@ class GraphTest : public testing::Test {
 };
 
 using GraphImplementations = ::testing::Types<
-  AdjacencyMatrix,
-  FlattenAdjacencyMatrix
+  AdjacencyMatrix<bool>,
+  AdjacencyMatrix<std::uint32_t>,
+  FlattenAdjacencyMatrix<bool>
 >;
 TYPED_TEST_SUITE(GraphTest, GraphImplementations,);
 
@@ -52,3 +53,52 @@ TYPED_TEST(GraphTest, AddEdge) {
   }
 }
 
+TYPED_TEST(GraphTest, OperatorEquals) {
+  using GraphImplementation = TypeParam;
+
+  GraphImplementation lhs5(5), rhs4(4);
+  ASSERT_FALSE(lhs5 == rhs4);
+  
+  GraphImplementation rhs5(5);
+  ASSERT_TRUE(lhs5 == rhs5);
+
+  lhs5.add_edge(0, 0, 100);
+  lhs5.add_edge(1, 4, 101);
+  lhs5.add_edge(4, 5, 102);
+  ASSERT_FALSE(lhs5 == rhs5);
+
+  rhs5.add_edge(0, 0, 100);
+  rhs5.add_edge(1, 4, 101);
+  rhs5.add_edge(4, 5, 102);
+  ASSERT_TRUE(lhs5 == rhs5);
+
+  // check against not-equal weights
+  rhs5.remove_edge(0, 0);
+  rhs5.add_edge(0, 0, 10000);
+  if constexpr (std::is_base_of_v<Graph<bool>, GraphImplementation>){
+    ASSERT_TRUE(lhs5 == rhs5); // non-zero weights for boolean matrix are same
+  } else { 
+    ASSERT_FALSE(lhs5 == rhs5);
+  }
+}
+
+TYPED_TEST(GraphTest, FromGraphConstructor) {
+  using GraphImplementation = TypeParam;
+
+  size_t n_nodes = 5;
+  GraphImplementation graph(n_nodes);
+
+  graph.add_edge(0, 0, 100);
+  graph.add_edge(1, 4, 101);
+  graph.add_edge(4, 5, 102);
+
+  GraphImplementation copy_graph(graph);
+  ASSERT_TRUE(graph == copy_graph);
+
+  AdjacencyMatrix<std::uint16_t> other_type_graph(graph);
+  ASSERT_TRUE(graph == other_type_graph);
+
+  graph.remove_edge(0, 0);
+  ASSERT_FALSE(graph == copy_graph);
+  ASSERT_FALSE(graph == other_type_graph);
+}
