@@ -16,16 +16,13 @@ class FlattenAdjacencyMatrixOpenMP : public GraphOpenMP {
     : size_(other.size())
     , mat_(other.size() * other.size(), null_edge_value)
   {
-    #pragma omp parallel 
-    {
-	#pragma omp for
-        for (size_t from = 0; from < other.size(); ++from) {
-          for (size_t to = 0; to < other.size(); ++to) {
-            if (other.has_edge(from, to)) {
-              mat_[from * size_ + to] = other(from, to);
-            }
-          }
+	  #pragma omp for
+    for (size_t from = 0; from < other.size(); ++from) {
+      for (size_t to = 0; to < other.size(); ++to) {
+        if (other.has_edge(from, to)) {
+          mat_[from * size_ + to] = other(from, to);
         }
+      }
     }
   }
 
