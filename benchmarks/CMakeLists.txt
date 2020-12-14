@@ -13,7 +13,7 @@ foreach(BENCH_SOURCE ${BENCH_SOURCES})
     set(BENCH_TARGET "${BENCH_NAME}")
 
     add_executable(${BENCH_TARGET} ${BENCH_SOURCE})
-    target_link_libraries(${BENCH_TARGET} benchmark ${MAIN_LIB_NAME})
+    target_link_libraries(${BENCH_TARGET} benchmark ${MAIN_LIB_NAME} ${MAIN_LIB_DEPENDENCY})
 
     list(APPEND ALL_BENCHES ${BENCH_TARGET})
 endforeach()

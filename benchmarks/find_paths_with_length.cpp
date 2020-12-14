@@ -21,11 +21,11 @@ static void BM_FindPaths(benchmark::State& state) {
 }
 
 static void Arguments(benchmark::internal::Benchmark* b) {
-  for (int size = 16; size <= 256; size *= 4) {
-    b->Args({size, 2});
-    b->Args({size, 10});
-    b->Args({size, size / 2});
-    b->Args({size, size});
+  std::vector<long> sizes { 16, 64, 256, 512 };
+  for (auto size : sizes) {
+    b->Args({size, 4});
+    b->Args({size, 16});
+    b->Args({size, 128});
   }
 }
 
