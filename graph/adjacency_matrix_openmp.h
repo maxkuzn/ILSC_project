@@ -2,6 +2,7 @@
 
 #include "graph_openmp.h"
 #include <type_traits>
+#include <omp.h>
 
 class AdjacencyMatrixOpenMP : public GraphOpenMP {
  public:
@@ -13,12 +14,16 @@ class AdjacencyMatrixOpenMP : public GraphOpenMP {
   AdjacencyMatrixOpenMP(const Graph& other)
     : mat_(other.size(), std::vector<EdgeT>(other.size(), null_edge_value))
   {
-    for (size_t from = 0; from < other.size(); ++from) {
-      for (size_t to = 0; to < other.size(); ++to) {
-        if (other.has_edge(from, to)) {
-          mat_[from][to] = other(from, to);
+    #pragma omp parallel
+    {	
+	#pragma omp for  
+        for (size_t from = 0; from < other.size(); ++from) {
+          for (size_t to = 0; to < other.size(); ++to) {
+            if (other.has_edge(from, to)) {
+              mat_[from][to] = other(from, to);
+            }
+          }
         }
-      }
     }
   }
 
